@@ -79,8 +79,15 @@ RUN echo postfix postfix/main_mailer_type string "'Internet Site'" | debconf-set
         snmp-mibs-downloader                \
         unzip                               \
         python                              \
+        python3-pip                         \
                                                 && \
     apt-get clean && rm -Rf /var/lib/apt/lists/*
+
+# Add telegram plugin support
+RUN pip3 install twx.botapi
+
+# Add Unifi plugin support
+RUN pip3 install pyunifi nagiosplugin
 
 RUN ( egrep -i "^${NAGIOS_GROUP}"    /etc/group || groupadd $NAGIOS_GROUP    )                         && \
     ( egrep -i "^${NAGIOS_CMDGROUP}" /etc/group || groupadd $NAGIOS_CMDGROUP )
